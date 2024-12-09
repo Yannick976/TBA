@@ -55,8 +55,16 @@ class Actions:
 
         # Get the direction from the list of words.
         direction = list_of_words[1]
+        
+        # Vérification si la direction est valide
+        if direction not in player.current_room.exits:
+            print(f"\nLa direction '{direction}' n'est pas valide depuis ici.")
+            return False
+
         # Move the player in the direction specified by the parameter.
         player.move(direction)
+        print("Vous avez déjà visité les pièces suivantes:")
+        print(player.get_history())  # Affichage de l'historique après chaque déplacement
         return True
 
     def quit(game, list_of_words, number_of_parameters):
@@ -136,4 +144,34 @@ class Actions:
         for command in game.commands.values():
             print("\t- " + str(command))
         print()
+        return True
+    
+    def back(game, list_of_words, number_of_parameters):
+        """
+        Permet de revenir à la dernière pièce visitée.
+        """
+        player = game.player
+        if len(player.history) > 0:
+            # Récupérer la dernière pièce visitée
+            last_room_description = player.history.pop()
+            # Simuler le retour en arrière
+            for room in game.rooms:
+                if room.description == last_room_description:
+                    player.current_room = room
+                    print(player.current_room.get_long_description())
+                    print("Vous avez déjà visité les pièces suivantes:")
+                    print(player.get_history())  # Affichage de l'historique après retour en arrière
+                    return True
+        else:
+            print("Vous ne pouvez pas revenir en arrière, aucun historique de déplacements.")
+            return False
+
+    @staticmethod
+    def history(game, list_of_words, number_of_parameters):
+        """
+        Affiche l'historique des pièces visitées.
+        """
+        player = game.player
+        print("Vous avez déjà visité les pièces suivantes:")
+        print(player.get_history())  # Affichage de l'historique
         return True
