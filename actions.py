@@ -132,7 +132,7 @@ class Actions:
             return False
         
         # Print the list of available commands.
-        print("\nVoici les commandes disponibles:")
+        print("\nVoicii les commandes disponibles:")
         for command in game.commands.values():
             print("\t- " + str(command))
         print()
