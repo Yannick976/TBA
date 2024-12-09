@@ -27,35 +27,36 @@ class Game:
         self.commands["quit"] = quit
         go = Command("go", " <direction> : se déplacer dans une direction cardinale (N, E, S, O)", Actions.go, 1)
         self.commands["go"] = go
+        back = Command("back", " : revenir en arrière", Actions.back, 0)
+        self.commands["back"] = back
+        history = Command("history", " : afficher l'historique des déplacements", Actions.history, 0)
+        self.commands["history"] = history
         
-        # Setup rooms
+        # Setup des pièces 
+        grande_place = Room("La grande place", "sur une place centrale avec une grande fontaine au milieu.")
+        maison_chef = Room("Maison du chef", "dans la maison impressionnante du chef du village.")
+        maison_joueur = Room("Maison du joueur", "dans votre propre maison chaleureuse.")
+        exterieur_maison = Room("Extérieur de la maison", "devant l'entrée de votre maison.")
+        cave = Room("Cave", "dans une cave sombre et mystérieuse.")
+        maison_abandonnee = Room("Maison abandonnée", "dans une maison décrépite, où règne une ambiance inquiétante.")
+        bibliotheque = Room("Bibliothèque", "entouré de rangées de livres anciens et poussiéreux.")
+        ferme = Room("Ferme", "dans un champ avec des cultures et des outils agricoles.")
 
-        forest = Room("Forest", "dans une forêt enchantée. Vous entendez une brise légère à travers la cime des arbres.")
-        self.rooms.append(forest)
-        tower = Room("Tower", "dans une immense tour en pierre qui s'élève au dessus des nuages.")
-        self.rooms.append(tower)
-        cave = Room("Cave", "dans une grotte profonde et sombre. Des voix semblent provenir des profondeurs.")
-        self.rooms.append(cave)
-        cottage = Room("Cottage", "dans un petit chalet pittoresque avec un toit de chaume. Une épaisse fumée verte sort de la cheminée.")
-        self.rooms.append(cottage)
-        swamp = Room("Swamp", "dans un marécage sombre et ténébreux. L'eau bouillonne, les abords sont vaseux.")
-        self.rooms.append(swamp)
-        castle = Room("Castle", "dans un énorme château fort avec des douves et un pont levis. Sur les tours, des flèches en or massif.")
-        self.rooms.append(castle)
+        grande_place.exits = {"N": maison_chef, "E": exterieur_maison, "S": ferme, "O": maison_abandonnee}
+        maison_chef.exits = {"S": grande_place}
+        maison_joueur.exits = {"E": bibliotheque, "O": exterieur_maison}
+        exterieur_maison.exits = {"O": grande_place, "E": maison_joueur}
+        cave.exits = {"N": maison_abandonnee}
+        maison_abandonnee.exits = {"E": grande_place, "S": cave}
+        bibliotheque.exits = {"O": maison_joueur}
+        ferme.exits = {"N": grande_place}
 
-        # Create exits for rooms
-
-        forest.exits = {"N" : cave, "E" : tower, "S" : castle, "O" : None}
-        tower.exits = {"N" : cottage, "E" : None, "S" : swamp, "O" : forest}
-        cave.exits = {"N" : None, "E" : cottage, "S" : forest, "O" : None}
-        cottage.exits = {"N" : None, "E" : None, "S" : tower, "O" : cave}
-        swamp.exits = {"N" : tower, "E" : None, "S" : None, "O" : castle}
-        castle.exits = {"N" : forest, "E" : swamp, "S" : None, "O" : None}
+        self.rooms.extend([grande_place, maison_chef, maison_joueur, exterieur_maison, cave, maison_abandonnee, bibliotheque, ferme])
 
         # Setup player and starting room
 
         self.player = Player(input("\nEntrez votre nom: "))
-        self.player.current_room = swamp
+        self.player.current_room = grande_place
 
     # Play the game
     def play(self):
