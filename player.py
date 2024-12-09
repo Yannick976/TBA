@@ -6,6 +6,7 @@ class Player():
         self.name = name
         self.current_room = None
         self.history = []  # Historique des pièces visitées
+        self.inventory = dict()
     
     # Define the move method.
     def move(self, direction):
