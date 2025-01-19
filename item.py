@@ -17,4 +17,9 @@ class Item:
         Retourne une représentation textuelle de l'objet.
         """
         return f"Item(name='{self.name}', description='{self.description}', weight={self.weight})"
-      
+    
+
+  
+
+    
+

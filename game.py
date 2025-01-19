@@ -58,7 +58,7 @@ class Game:
         # Setup des pièces 
         grande_place = Room("La grande place", "sur une place centrale avec une grande fontaine au milieu.")
         maison_chef = Room("Maison du chef", "dans la maison impressionnante du chef du village.")
-        maison_joueur = Room("Maison du joueur", "dans votre propre maison chaleureuse.")
+        maison_joueur = Room("Maison du joueur", "dans la maison où Albert vous hébèrge.")
         exterieur_maison = Room("Extérieur de la maison", "devant l'entrée de votre maison.")
         cave = Room("Cave", "dans une cave sombre et mystérieuse.")
         maison_abandonnee = Room("Maison abandonnée", "dans une maison décrépite, où règne une ambiance inquiétante.")
@@ -88,41 +88,47 @@ class Game:
         cle = Item('clé',"une clé permettant d'ouvrir la porte du manoir" , 1, False)
         self.items.append(cle)
         taverne.inventory.add(cle)
-        if cle.state == True:
-            if self.player.current_room == entree_abandonnee:
-                entree_abandonnee.exits['E']= maison_abandonnee
-                print("Vous avez ouvert la pporte de la maison abandonnée")
-            else :
-                print("La clé n'est pas utilisable ici.")
-
-        
         sword = Item('épée','une épée tranchante', 7, False)
         self.items.append(sword)
         piece = Item('pièce', 'une pièce précieuse', 0.1, False)
         maison_chef.inventory.add(piece)
-        depouille =Item("dépouille", "le cadavre d'une jeune fille en décomposition", 35,  False)
+        depouille =Item("dépouille", "le cadavre d'une jeune fille en décomposition", 35, False)
         self.items.append(depouille)
         ferme.inventory.add(depouille)
-        telephone = Item('téléphone', 'un téléphone déchargé', 1,  False)
+        telephone = Item('téléphone', 'un téléphone déchargé', 1, False)
+        oreiller = Item("oreiller", "un oreiller parfait pour dormir", 1, False)
+        maison_joueur.inventory.add(oreiller)
+        journal = Item('journal', "le journal intime de Becker, la journaliste portée disparue", 3 ,False)
+        cave.inventory.add(journal)
+        verre = Item('verre', "un verre rempli proposé par le frère d'Albert", 2, False)
+        taverne.inventory.add(verre)
+        cle_voiture = Item("clé_voiture", "une clé servant à démarrer la voiture d'Albert", 1, False)
+        ferme.inventory.add(cle_voiture)
+        voiture = Item("voiture", "la voiture bleu d'Albert", 3000, False)
+        grande_place.inventory.add(voiture)
+
 
 
         #Setup des characters
-        fermier = Character("Fermier", "un fermier avec un sourire étrange", grande_place, ["Il se fait tard, à demain !"])
+        fermier = Character("Fermier", "un fermier avec un sourire étrange", grande_place, ["Albert a perdu ses clefs de voiture en venant m'aider à travailler dans le champ, si tu les trouves fait moi signe."])
         maison_fermier.characters[fermier.name] = fermier
         chef = Character("Chef", "le chef du village avec son imposante carrure", maison_chef, ["Rends toi chez Albert, il aura sûrement de la place pour toi !"])
         maison_chef.characters[chef.name] = chef
-
+        albert = Character("Albert", "un aimable villagois", maison_joueur,["Bienvenue dans notre village ! Vous pouvez loger chez moi le temps de votre séjour, j'irai habiter chez mon frère entre temps."])
+        maison_joueur.characters[albert.name] = albert
+        frere = Character("Bruno", "Frère de Albert", taverne , ["Ahh tu es le petit nouveau ? Aller prend ce verre, cadedau de la maison."])
+        taverne.characters[frere.name] = frere
         # Setup player and starting room
         self.player = Player(input("\nEntrez votre nom (qui vous servira de fausse identié): "))
         self.player.current_room = grande_place
 
         self.player.inventory['téléphone'] = telephone 
 
-
+        
 
 
     #Setup des utilisations des objets
-
+    
 
 
 
@@ -171,6 +177,16 @@ class Game:
         print("\nEntrez 'help' si vous avez besoin d'aide.")
         #
         print(self.player.current_room.get_long_description())
+
+    def isused(name, self):
+        if name == 'clé' :
+            if self.player.current_room.name == self.entree_abandonnee :
+                self.entree_abandonnee.exits['E'] = self.entree_abandonnee
+                print("Vous avez ouvert la porte de la maison abandonnée.")
+            else:
+                print("La clé n'est pas utilisable ici.")
+        else:
+            print("L'objet n'est pas utilisable.")
 
 
 

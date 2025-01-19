@@ -295,11 +295,18 @@ class Actions:
             return False
         
         item_name = list_of_words[1]
-        for key in game.player.inventory.keys() :
-            if key == item_name :
-                item = game.player.inventory.get(item_name)
-                item.state = True
-                return True
+        if item_name == 'clé' :
+            print("Vous pouvez rentrer dans la maison abandonnée.")
+        elif item_name == 'clé_voiture' :
+            print("Félicitation vous pouvez vous échapper vous avez récupérer les clefs et des preuves.")
+        elif item_name == 'carnet':
+            print("Journal de Becker : J'ai enfin découvert le secret de ce village...")
+            print("\n Ils assassinent les visiteurs pour vendre leurs organes afin de subvenir aux besoins financiers du village !")
+        elif item_name == 'oreiller':
+            print("Vous avez dormi. Vous avez passé une nuit agitée à cause des bruits venant le l'éxterieur.")
+        elif item_name =='verre' :
+            print("Vous commencez à vous sentir mal. Le verre que vous venez de boire était empoisonné.  Vous êtes mort. ")
+
         else:
             print("L'objet n'est pas dans votre inventaire.")
             return False
