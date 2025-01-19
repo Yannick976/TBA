@@ -1,63 +1,49 @@
-#Création de la classe Character
+"""
+Ce fichier contient la définition de la classe Character, représentant un personnage dans le jeu.
+"""
+
 import random
 DEBUG = True
 
+class Character:
+    """
+    Représente un personnage (PNJ) dans le jeu. 
+    Le personnage peut se déplacer dans différentes pièces et interagir avec d'autres entités.
+    """
 
-class Character():
-
-    #Définition des attributs
     def __init__(self, name, description, current_room, msgs):
-        self.name = name 
+        """
+        Initialise un personnage avec :
+        un nom, une description, une pièce actuelle et une liste de messages.
+
+        :param name: str, le nom du personnage.
+        :param description: str, une description du personnage.
+        :param current_room: Room, la pièce dans laquelle se trouve le personnage.
+        :param msgs: list, une liste de messages que le personnage peut envoyer.
+        """
+        self.name = name
         self.description = description
         self.current_room = current_room
         self.msgs = msgs
         self.has_moved = False
-    
 
     def __str__(self):
-        return f" {self.name} : {self.description}"
-    
+        return f"{self.name} : {self.description}"
+
     def move_decision(self):
         """
-        Détermine si le PNJ doit se déplacer ou non (1 chance sur 2).
+        Détermine si le personnage doit se déplacer ou non. 
+        La décision est aléatoire (1 chance sur 2).
+        
+        :return: bool, True si le personnage se déplace, False sinon.
         """
         return random.choice([True, False])
 
-    """
-    def move(self):
-        
-        Déplace le PNJ vers une pièce adjacente aléatoire avec une chance sur deux.
-        
-        if self.move_decision():
-            # Vérifie si la salle actuelle a des sorties valides
-            valid_exits = [key for key, value in self.current_room.exits.items() if value is not None]
-        
-            if not valid_exits:
-                if DEBUG:
-                    print(f"{self.name} ne peut pas bouger car il n'y a aucune sortie valide.")
-                return False  # Pas de mouvement possible
-        
-            # Choisit une direction aléatoire parmi les sorties valides
-            direction = random.choice(valid_exits)
-            next_room = self.current_room.exits[direction]
-
-            # Déplace le PNJ vers la nouvelle salle
-            self.current_room.characters.pop(self.name, None)  # Supprime le PNJ de la salle actuelle
-            next_room.characters[self.name] = self  # Ajoute le PNJ à la nouvelle salle
-            self.current_room = next_room  # Met à jour la salle actuelle du PNJ
-
-            if DEBUG:
-                print(f"{self.name} a été déplacé vers {next_room.name}.")
-                self.has_moved = True
-            return True  # Le mouvement a eu lieu
-        else:
-            # Le PNJ ne bouge pas
-            if DEBUG:
-                print(f"{self.name} n'a pas bougé.")
-            return False
-            """
-    
     def get_msg(self):
+        """
+        Retourne le prochain message du personnage en le déplaçant dans la liste des messages.
+        :return: str, le message du personnage.
+        """
         msg = self.msgs.pop(0)
         self.msgs.append(msg)
         return msg

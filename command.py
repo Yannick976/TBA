@@ -28,4 +28,12 @@ class Command:
     # La représentation sous forme de chaîne de la commande.
     def __str__(self):
         return self.command_word + " " + self.help_string
-  
+    # Nouvelle méthode pour exécuter l'action avec les paramètres.
+    def execute(self, *args):
+        """
+        Nouvelle méthode pour exécuter l'action avec les paramètres.
+        """
+        if len(args) == self.number_of_parameters:
+            self.action(*args)
+        else:
+            print(f"Erreur : {self.command_word} attend {self.number_of_parameters} paramètres.")
