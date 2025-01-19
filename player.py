@@ -6,7 +6,8 @@ class Player():
         self.name = name
         self.current_room = None
         self.history = []  # Historique des pièces visitées
-        self.inventory = dict()
+        self.inventory = {}
+        self.max_weight = 30
     
     # Define the move method.
     def move(self, direction):
@@ -15,7 +16,7 @@ class Player():
 
         # If the next room is None, print an error message and return False.
         if next_room is None:
-            print("\nAucune porte dans cette direction !\n")
+            print("\nAucune issue dans cette direction !\n")
             return False
         
          # Ajoutez la description de la pièce actuelle à l'historique si elle n'y est pas encore.
@@ -29,5 +30,17 @@ class Player():
 
     def get_history(self):
         # Retourne l'historique des pièces visitées
-        return "\n".join([f"- {desc}" for desc in self.history]) if self.history else "Aucun historique de visites."
-    
+        return "\n".join([f"- {i}" for i in self.history]) if self.history else "Aucun historique de visites."
+    #voir si on peut remplacer desc par i
+
+    def get_inventory(self):
+        """
+        Affiche et retourne le contenu de l'inventaire du joueur.
+        """
+        if not self.inventory:
+            return "\nVotre inventaire est vide."
+        else:
+            inventory_contents = "\nVous disposez des items suivants :"
+            for item_name,item_obj in self.inventory.items():
+                inventory_contents += f"\n  - {item_name} : {item_obj.description} ({item_obj.weight}kg)"
+            return inventory_contents

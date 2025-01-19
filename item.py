@@ -1,5 +1,5 @@
 class Item:
-    def __init__(self, name, description, weight):
+    def __init__(self, name, description, weight, state):
         """
         Initialise un nouvel objet Item.
 
@@ -10,6 +10,7 @@ class Item:
         self.name = name
         self.description = description
         self.weight = weight
+        self.state = state
 
     def __str__(self):
         """
